@@ -1,9 +1,22 @@
 #!/bin/bash
 
-##CHARACTERIZE AND QUANTIFY TES FROM MASURCA OUTPUT	
+#----------------------------------------------------
+# CHARACTERIZE AND QUANTIFY TES FROM MASURCA OUTPUT	
+# dependencies:
+# 	repeatmasker (path specified below)
+#	bwa
+#	samtools
+#	blast+ (and makeblastdb already run on $REF, see below)
+# usage: 
+# 	enter name of taxon as $1, fastq file as $2 (or enter batch in REscripts), reference file as $3
+# run in batch using launchREpipe.slurm (disregards all slurm commands above)
+# taxa specified in list (taxa.lst) located in folder named $1
+# sequence files in folders with taxon names in $WORK
+# change -A option if anything other than monocotTE
+#----------------------------------------------------
 
-#SBATCH -J REpipeline              # Job name
-#SBATCH -o REpipeline.%j.out       # Name of stdout output file (%j expands to jobId)
+#SBATCH -J REpipe              # Job name
+#SBATCH -o REpipe.%j.out       # Name of stdout output file (%j expands to jobId)
 #SBATCH -p development        # Queue name
 #SBATCH -n 16                  # Total number of  tasks requested
 #SBATCH -t 2:00:00           # Run time (hh:mm:ss) 
@@ -12,16 +25,12 @@
 
 #SBATCH -A monocotTE          # <-- Allocation name to charge job against
 
-##enter name of taxon as $1, fastq file as $2
-##DEPENDENCIES: repeatmasker, bwa, samtools, blast+ (and makeblastdb already run on $REF, see below)
-##run in batch using launchREpipe.slurm (disregards all slurm commands above)
-
 module load bwa samtools blast
 
 REPEATMASKER=$HOME/bin/RepeatMasker
 
-DATA=$WORK/agave_data/$1
-REF=$HOME/refs/AlliumOrg.fasta
+DATA=$WORK/$1
+REF=$HOME/refs/$3
 OUT=$HOME/$1/$1.QCout
 
 ##SETUP FILES AND DIRECTORIES
