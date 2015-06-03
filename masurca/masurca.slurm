@@ -1,8 +1,11 @@
 #!/bin/bash
 #----------------------------------------------------
 # script to run masurca on TACC's Stampede for multiple taxa in a series
+# dependency:
+# 	masurca (path specified below)
 # taxa specified in list (taxa.lst) located in folder named $1
-# change -A option if anything other than monocot
+# sequence files in folders with taxon names in $WORK
+# change -A option if anything other than monocotTE
 # From example SLURM job script job.mpi
 #----------------------------------------------------
 
