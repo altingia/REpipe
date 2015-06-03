@@ -1,0 +1,9 @@
+REpipeline.slurm Anemarrhena_asphodeloides EL03-100511trim.fastq.gz
+REpipeline.slurm Behnia_reticulata EL113-100913trim.fastq.gz
+REpipeline.slurm Camassia_scilloides EL05-090922trim.fastq.gz
+REpipeline.slurm Echeandia_sp EL67-100302trim.fastq.gz
+REpipeline.slurm Hosta_ventricosa EL01-100511trim.fastq.gz
+REpipeline.slurm Manfreda_virginica EL69-100302trim.fastq.gz
+REpipeline.slurm Polianthes_sp EL34-100330trim.fastq.gz
+REpipeline.slurm Schoenolirion_croceum Schoenolirion_1atrim.fastq.gz
+REpipeline.slurm Yucca_brevifolia Yuccabrevifolia_2trim.fastq.gz
