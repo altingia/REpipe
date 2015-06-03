@@ -17,7 +17,7 @@
 # TAXON unique taxonomic identifier (i.e., genus and species separated by underscore)
 # GSStrim prefix for Illumina data file
 DATA
-PE= aa AVG SD /work/03177/hertweck/TAXON/GSStrim.fastq.gz 
+PE= aa AVG SD /work/03177/hertweck/TAXON/GSStrim.fastq.gz
 END
 
 PARAMETERS
