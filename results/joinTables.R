@@ -2,10 +2,8 @@
 
 ##CLEANING AND JOINING REpipeline.sh RESULTS FROM MULTIPLE SPECIES (on JeanLuc)
 
-setwd("~/Copy/TAXON/results/combine")
-
 #import species list
-species <- read.csv(file="taxa.lst", header=FALSE)
+species <- read.csv(list.files(path = ".", pattern = ".lst"), header=FALSE)
 
 #import all parsed REpipeline  files
 filelist <- list.files(path=".", pattern=".table")
@@ -20,5 +18,5 @@ rawdata <- do.call(cbind, mget(filelist, envir=.GlobalEnv))
 colnames(rawdata) <- sort(species$V1, method = "shell")
 #reorient
 rawdata <- as.data.frame(t(rawdata))
-write.csv(rawdata, file="REpipeResults.csv")
+write.csv(rawdata, file="temp.csv", quote = FALSE)
 

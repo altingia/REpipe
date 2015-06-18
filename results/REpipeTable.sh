@@ -1,23 +1,23 @@
 #!/bin/bash
 
 #PROCESS OUTFILES FROM REpipeline
-#specify tax
+#specify taxon as $1
 #dependency: joinTables.R
 
-RESULTS=~/Copy/TAXON/results
+RESULTS=~/Copy/$1/results
 JOIN=~/GitHub/REpipe
 
 cd $RESULTS 
 
-#expand results
-#	for x in *.tar.gz
-#		do
-#			tar -xvzf $x
-#	done
+# expand results
+	for x in *.tar.gz
+		do
+			tar -xvzf $x
+	done
 
 #CONSTRUCT OUTFILE FOR EACH TAXON
 
-for x in `cat $1`
+for x in `cat $1.lst`
 	do
 
 	cd $RESULTS/$x
@@ -121,4 +121,7 @@ cd combine/
 	chmod +x accessions.lst
 	
 #join all accessions together
-R CMD BATCH $JOIN/joinTables.R
+R CMD BATCH $JOIN/results/joinTables.R
+tr -d " " < temp.csv > ../REpipeResults.csv
+cd ..
+rm -r combine/
