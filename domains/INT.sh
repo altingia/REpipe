@@ -1,22 +1,23 @@
 #!/bin/bash
 
-##search for integrase domains from assemblies
-##dependencies: 
+## search for integrase domains from assemblies
+## usage: ./INT.sh TAXON
+## taxa to be analyzed in TAXONINT.lst
+## dependencies: 
 #	blast+ (makeprofiledb, rpstblastn)
 #	samtools
 #	cd-hit-est
 
-RESULTS=~/Copy/Agave/results
+RESULTS=~/Copy/$1/results
 DOMAIN=~/Copy/REdata/referenceSeq/domains
-OUT=~/Copy/Agave/results/INT.out
 
 cd $RESULTS
-echo INTEGRASE > $OUT
+echo INTEGRASE > $RESULTS/$1INT.out
 
-##make custom rps-blast library
-#makeprofiledb -in $DOMAIN/custom/INT.lst
+## make custom rps-blast library
+makeprofiledb -in $DOMAIN/custom/INT.lst
 
-for x in assembly_sp
+for x in agave_deserti #`cat $1INT.lst`
 	do
 		echo $x
 		cd $x
@@ -27,11 +28,11 @@ for x in assembly_sp
 		rpstblastn -query ../contig/contig.fas -db $DOMAIN/custom/INT.lst -out INTrpsblast.out -evalue 0.01 -outfmt 7 -max_target_seqs 1
 		
 		### Simplify rps-blast output and filter results shorter than 120
-		echo $x | tee -a $OUT
+		echo $x | tee -a $RESULTS/$1INT.out
 		grep "gnl" INTrpsblast.out > INTall.out
-		wc -l INTall.out | tee -a $OUT
+		wc -l INTall.out | tee -a $RESULTS/$1INT.out
 		awk '{if ($4 > 120) print $0}' INTall.out > INT.out
-		wc -l INT.out | tee -a $OUT
+		wc -l INT.out | tee -a $RESULTS/$1INT.out
 		cut -f 1 INT.out > INT.lst
 
 		##pull out fasta
@@ -42,7 +43,7 @@ for x in assembly_sp
 		
 		#cluster results to remove redundancy
 		cd-hit-est -i INT.afa -o INT -c 0.9 -n 8 -aL 0.9 -aS 0.9 -g 1
-		wc -l INT | tee -a $OUT
+		wc -l INT | tee $RESULTS/$1INT.out
 		cd $RESULTS
 done
 		
