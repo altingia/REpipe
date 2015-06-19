@@ -1,22 +1,23 @@
 #!/bin/bash
-##Prep input fasta file and run analysis
-##$1 is input taxon, input file is $1ORIGINAL.fa
-##dependencies: cdbfasta, repeatmasker
 
-AGAVE=~/Copy/Agave/test
+##Prep input fasta file (assemblies from other people) and run RepeatMasker
+##assembly files listed in assembly.lst
+##dependencies: 
+#	samtools
+#	repeatmasker
+
+AGAVE=~/Copy/Agave/assemblies
+REPEATMASKER=~XXX
 
 cd $AGAVE
-mkdir archive data
 
-##make sure no lowercase n
-cat $1ORIGINAL.fa | sed 's/n/N/' > $1.fa
-mv *ORIGINAL.fa archive
-mv *.fa data
-
-##index fasta file
-cd data
-cdbfasta $1.fa
-cd ..
-
-##repeatmasker (quick and dirty)
-repeatmasker -qq -nolow -no_is -norna -species liliopsida -nocut data/$1.fa
+for x in `cat assembly.lst`
+	do 
+		mkdir ../results/$x ../results/$x/contig	  			#setup directory
+		sed 's/n/N/' $x.fas > ../results/$x/contig/contig.fas 	#remove lowercase ns from data
+		cd ../results/$x/contig 								#move to directory
+		samtools faidx $x.fas 									#index assembly file
+		$REPEATMASKER -species liliopsida $x.fas 				#run repeatmasker
+		cd $AGAVE						
+done
+ 
