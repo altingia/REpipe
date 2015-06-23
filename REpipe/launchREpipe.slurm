@@ -30,11 +30,12 @@
 #SBATCH -A monocotTE 
 #------------------------------------------------------
 
-GROUP=$HOME/$1
+set GROUP = $HOME/$1
+set REPIPE = $HOME/REpipeline/REpipeline.slurm
 
 module load launcher
 setenv EXECUTABLE     $TACC_LAUNCHER_DIR/init_launcher 
-setenv CONTROL_FILE   $GROUP/REscripts
+setenv CONTROL_FILE   REscripts
 setenv WORKDIR        $GROUP
 # 
 # Variable description:
