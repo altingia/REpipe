@@ -58,5 +58,5 @@ for x in `cat $RESULTS/$1.lst`
 		cd $ASSEMBLY
 done
 
-## combine integrase from different taxa with reference
+## combine integrase from different taxa
 cat */INT/INTclust.fas > $RESULTS/INTcombined.fas
