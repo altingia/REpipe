@@ -10,11 +10,14 @@
 
 ASSEMBLY=~/Copy/$1/assembly
 RESULTS=~/Copy/$1/results
-DOMAIN=~/data/domains/CDD/cdd
+DOMAIN=~/data/domains
 
 ## make custom rps-blast library
 #cd $DOMAIN
 #makeprofiledb -in RT.pn -out RT
+
+## make list of IDs for each domain in list
+#for x in `cat RT.pn`; do grep "tag id" CDD/cdd/$x ; done | sed s/\ //g | sed s/tagid// > RTcdd.lst
 
 cd $ASSEMBLY
 echo "REVERSE TRANSCRIPTASE" > $RESULTS/$1RT.out
@@ -39,7 +42,7 @@ for x in `cat $RESULTS/$1.lst`
 		awk '{if ($4 > 100) print $0}' RTall.out > RTlength.out
 		
 		## separate by RT type
-		for type in 238185 238822 238823 238825 238827 238828 238843 239569 239684 239685 249567 254387 
+		for type in `cat $DOMAIN/RTcdd.lst`
 			do
 			grep $type RTlength.out | 		
 			## print ranges of hits to pass to samtools
@@ -56,9 +59,15 @@ for x in `cat $RESULTS/$1.lst`
 			grep ">" $type.clust.out | wc -l | tee -a $RESULTS/$1RT.out
 			## append taxon name to fasta headers
 			sed "s/>/>$x./" $type.clust.out > $type.clust.fas
-			
 		done
 	
 	cd $ASSEMBLY			
-
 done
+
+## combine different RTs from different taxa 
+for type in `cat $DOMAIN/RTcdd.lst`
+	do
+	cat */RT/$type.clust.fas > $RESULTS/$type.combined.fas
+	wc -l $RESULTS/$type.combined.fas | tee -a $RESULTS/$1RT.out
+done
+
