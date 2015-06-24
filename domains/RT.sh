@@ -20,7 +20,7 @@ cd $ASSEMBLY
 echo "REVERSE TRANSCRIPTASE" > $RESULTS/$1RT.out
 
 ## extract reverse transcriptase domains from each taxon
-for x in Agave_deserti #`cat $RESULTS/$1.lst`
+for x in `cat $RESULTS/$1.lst`
 	do
 		echo $x
 		cd $x
@@ -39,7 +39,7 @@ for x in Agave_deserti #`cat $RESULTS/$1.lst`
 		awk '{if ($4 > 100) print $0}' RTall.out > RTlength.out
 		
 		## separate by RT type
-		for type in 249567 254387
+		for type in 238185 238822 238823 238825 238827 238828 238843 239569 239684 239685 249567 254387 
 			do
 			grep $type RTlength.out | 		
 			## print ranges of hits to pass to samtools
