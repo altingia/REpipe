@@ -42,14 +42,15 @@ From assemblies (genomes or transcriptomes):
 CDD PSSM_ID annotation
 
 RT
-* pfam07727 gnl|CDD|219537 RVT_2
-* pfam00078 gnl|CDD|215698 RVT_1
+* pfam07727 gnl|CDD|254387 RVT_2
+* pfam00078 gnl|CDD|249567 RVT_1
 * cd00304 gnl|CDD|238185 RT_like
 * cd01647 gnl|CDD|238825 RT-LTR
 * cd01650 gnl|CDD|238827 RT_nLTR_like
+* cd01651 gnl|CDD|238828 RT_G2_intron
 
 INT
-* pfam00665 gnl|CDD|216050 rve
+* pfam00665 gnl|CDD|250040 rve
 
 Tase
 
