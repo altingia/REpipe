@@ -4,7 +4,7 @@
 ## usage: ./INT.sh TAXON
 ## taxa to be analyzed in TAXON.lst
 ## dependencies: 
-#	blast+: rpstblastn and makeprofiledb
+#	blast+ (makeprofiledb, rpstblastn)
 #	samtools (index created in previous script)
 #	cd-hit-est
 
@@ -28,7 +28,7 @@ for x in `cat $RESULTS/$1.lst`
 		cd INT
 		
 		### Run rps-blast
-		#rpstblastn -query ../contig/contig.fas -db $DOMAIN/INT -out INTrpsblast.out -evalue 0.01 -outfmt 7 -max_target_seqs 1
+		rpstblastn -query ../contig/contig.fas -db $DOMAIN/INT -out INTrpsblast.out -evalue 0.01 -outfmt 7 -max_target_seqs 1
 		
 		### Simplify rps-blast output and filter results
 		echo $x | tee -a $RESULTS/$1INT.out
