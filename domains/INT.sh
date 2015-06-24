@@ -45,7 +45,7 @@ for x in `cat $RESULTS/$1.lst`
 		wc -l INT.lst | tee -a $RESULTS/$1INT.out
 
 		## pull out fasta
-		samtools faidx ../contig/contig.fas $(cat INT.lst) > INT.fas
+		samtools faidx ../contig/contig.fas $(cat INT.lst) | s/:/./ > INT.fas
 		
 		## cluster results to remove redundancy
 		cd-hit-est -i INT.fas -o INTclust.out -c 0.9 -n 8 -aL 0.9 -aS 0.9 -g 1
