@@ -68,6 +68,7 @@ done
 for type in `cat $DOMAIN/RTcdd.lst`
 	do
 	cat */RT/$type.clust.fas > $RESULTS/$type.combined.fas
+	echo $type | tee -a $RESULTS/$1RT.out
 	grep ">" $RESULTS/$type.combined.fas | wc -l | tee -a $RESULTS/$1RT.out
 done
 
