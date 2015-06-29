@@ -1,56 +1,53 @@
 #!/bin/bash
-##$1 is input taxon
-##input files: $1.fa.out, $1.fa.cidx, $1.fa
-##dependencies: cdbyank, fasta_formatter, fastx_reverse_complement
 
-##Gypsys
-grep 'LTR/Gypsy' $1.fa.out > $1Gypsy.out
-##filter out partial sequences (for Gypsy, less than 2000 bp)
-cat $1Gypsy.out | awk '{
-	if ($7-$6>2000)
-		print $0;
-	}' > $1Gypsyfiltered.out
+## extract Gypsy or Copia from RepeatMasker screens of assemblies
+## usage: ./extractLTR.sh TAXON Gypsy or ./extractLTR.sh TAXON Copia
+## dependencies:
+## 	samtools
+## 	cd-hit-est
 
-##DEA1
-##pull out fasta
-cat $1Gypsyfiltered.out | awk '{
-	if ($9=="+" && $10=="DEA1") 
-		print $5 " " $6 " " $7;	
-	}' | cdbyank $1.fa.cidx -R | fasta_formatter | sed 's/>/>'$1'./' > $1Gypsy.DEA1.fa
-cat $1Gypsyfiltered.out | awk '{
-	if ($9=="C" && $10=="DEA1")
-		print $5 " " $6 " " $7;
-	}' | cdbyank $1.fa.cidx -R | fasta_formatter | fastx_reverse_complement | sed 's/>/>'$1'./' >> $1Gypsy.DEA1.fa
+ASSEMBLY=~/Copy/$1/assembly
+RESULTS=~/Copy/$1/results
 
-##Gypsy22-ZM_I-int
-##pull out fasta
-cat $1Gypsyfiltered.out | awk '{
-	if ($9=="+" && $10=="Gypsy22-ZM_I-int") 
-		print $5 " " $6 " " $7;	
-	}' | cdbyank $1.fa.cidx -R | fasta_formatter | sed 's/>/>'$1'./' > $1Gypsy.Gypsy22ZMIint.fa
-cat $1Gypsyfiltered.out | awk '{
-	if ($9=="C" && $10=="Gypsy22-ZM_I-int")
-		print $5 " " $6 " " $7;
-	}' | cdbyank $1.fa.cidx -R | fasta_formatter | fastx_reverse_complement | sed 's/>/>'$1'./' >> $1Gypsy.Gypsy22ZMIint.fa
+mkdir $RESULTS/$2
+echo $2 | tee $RESULTS/$2/$1$2.out
 
-##Gypsy-5_PD-I
-##pull out fasta
-cat $1Gypsyfiltered.out | awk '{
-	if ($9=="+" && $10=="Gypsy-5_PD-I") 
-		print $5 " " $6 " " $7;	
-	}' | cdbyank $1.fa.cidx -R | fasta_formatter | sed 's/>/>'$1'./' > $1Gypsy.Gypsy5PDI.fa
-cat $1Gypsyfiltered.out | awk '{
-	if ($9=="C" && $10=="Gypsy-5_PD-I")
-		print $5 " " $6 " " $7;
-	}' | cdbyank $1.fa.cidx -R | fasta_formatter | fastx_reverse_complement | sed 's/>/>'$1'./' >> $1Gypsy.Gypsy5PDI.fa
-	
-##Gypsy-4_PD-I
-##pull out fasta
-cat $1Gypsyfiltered.out | awk '{
-	if ($9=="+" && $10=="Gypsy-4_PD-I") 
-		print $5 " " $6 " " $7;	
-	}' | cdbyank $1.fa.cidx -R | fasta_formatter | sed 's/>/>'$1'./' > $1Gypsy.Gypsy4PDI.fa
-cat $1Gypsyfiltered.out | awk '{
-	if ($9=="C" && $10=="Gypsy-4_PD-I")
-		print $5 " " $6 " " $7;
-	}' | cdbyank $1.fa.cidx -R | fasta_formatter | fastx_reverse_complement | sed 's/>/>'$1'./' >> $1Gypsy.Gypsy4PDI.fa
+cd $ASSEMBLY
+
+## loop across all taxa
+for x in `cat $RESULTS/$1.lst`
+	do
+		cd $x/LTR
+		## create list of unique elements recognized
+		awk '{print $10}' $2.out | sort | uniq > $2.types.lst
+		echo $x | tee -a $RESULTS/$2/$1$2.out
+		wc -l $2.types.lst | tee -a $RESULTS/$2/$1$2.out
+		
+		## loop across all element types
+		for type in `cat $2.types.lst`
+			do
+				## print ranges to pass to samtools
+				grep $type $2.out | awk '{print $5":"$6"-"$7}' > $type.lst
+				wc -l $type.lst | tee -a $RESULTS/$2/$1$2.out
+				## extract from fasta
+				samtools faidx ../contig/contig.fas $(cat $type.lst) s/:/./ > $type.fas
+				## cluster results to remove redundancy
+				cd-hit-est -i $type.fas -o $type.clust.out -c 0.9 -n 8 -aL 0.9 -aS 0.9 -g 1
+				grep ">" $type.clust.out | wc -l | tee -a $RESULTS/$2/$1$2.out
+				## append taxon name to fasta headers
+				sed "s/>/>$x./" $type.clust.out > $type.clust.fas
+		done
+		
+		cd $ASSEMBLY
+
+done	
+
+## combine elements from all taxa by type
+cat */LTR/$2.types.lst > $RESULTS/$2/$2all.lst
+
+for group in `cat $RESULTS/$2/$2all.lst`
+	do
+	cat */LTR/$group.clust.fas > $RESULTS/$2/$group.combined.fas
+	echo $group | tee -a $RESULTS/$2/$1$2.out
+	grep ">" $RESULTS/$2/$group.combined.fas | wc -l | tee -a $RESULTS/$2/$1$2.out
+done
