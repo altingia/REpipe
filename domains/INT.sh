@@ -17,7 +17,7 @@ DOMAIN=~/data/domains/CDD/cdd
 #makeprofiledb -in INT.pn -out INT
 
 cd $ASSEMBLY
-echo "INTEGRASE" > $RESULTS/$1INT.out
+echo "INTEGRASE" > $RESULTS/INT/$1INT.out
 
 ## extract integrase domains from each taxon
 for x in `cat $RESULTS/$1.lst`
@@ -31,10 +31,10 @@ for x in `cat $RESULTS/$1.lst`
 		rpstblastn -query ../contig/contig.fas -db $DOMAIN/INT -out INTrpsblast.out -evalue 0.01 -outfmt 7 -max_target_seqs 1
 		
 		### Simplify rps-blast output and filter results
-		echo $x | tee -a $RESULTS/$1INT.out
+		echo $x | tee -a $RESULTS/INT/$1INT.out
 		## extract positive hits
 		grep "gnl" INTrpsblast.out > INTall.out
-		wc -l INTall.out | tee -a $RESULTS/$1INT.out
+		wc -l INTall.out | tee -a $RESULTS/INT/$1INT.out
 		## filter out hits less than 100 aa in length 
 		awk '{if ($4 > 100) print $0}' INTall.out > INTlength.out
 		## print ranges of hits to pass to samtools
@@ -42,15 +42,14 @@ for x in `cat $RESULTS/$1.lst`
 			print $1":"$7"-"$8;
 			else 
 			print $1":"$8"-"$7}' INTlength.out > INT.lst
-		wc -l INT.lst | tee -a $RESULTS/$1INT.out
+		wc -l INT.lst | tee -a $RESULTS/INT/$1INT.out
 
 		## pull out fasta
 		samtools faidx ../contig/contig.fas $(cat INT.lst) | s/:/./ > INT.fas
 		
 		## cluster results to remove redundancy
 		cd-hit-est -i INT.fas -o INTclust.out -c 0.9 -n 8 -aL 0.9 -aS 0.9 -g 1
-		echo "clusters" | tee -a $RESULTS/$1INT.out
-		grep ">" INTclust.out | wc -l | tee -a $RESULTS/$1INT.out
+		grep ">" INTclust.out | wc -l | tee -a $RESULTS/INT/$1INT.out
 		
 		## append taxon name to fasta headers
 		sed "s/>/>$x./" INTclust.out > INTclust.fas
@@ -59,4 +58,4 @@ for x in `cat $RESULTS/$1.lst`
 done
 
 ## combine integrase from different taxa
-cat */INT/INTclust.fas > $RESULTS/INTcombined.fas
+cat */INT/INTclust.fas > $RESULTS/INT/INTcombined.fas
