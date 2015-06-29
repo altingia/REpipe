@@ -1,21 +1,29 @@
 #!/bin/bash
-##$1 is input taxon
-##input files: $1.fa.out, $1.fa.cidx, $1.fa
-##dependencies: cdbyank, fasta_formatter, fastx_reverse_complement
 
-##SINEs
-grep 'SINE/tRNA-RTE' $1.fa.out > $1SINE.out
-##filter out partial sequences (for SINEs, less than 100 bp)
-cat $1SINE.out | awk '{
-	if ($7-$6>100)
-		print $0;
-	}' > $1SINEfiltered.out
-##pull out SINE fasta
-cat $1SINEfiltered.out | awk '{
-	if ($9=="+") 
-		print $5 " " $6 " " $7;	
-	}' | cdbyank $1.fa.cidx -R | fasta_formatter | sed 's/>/>'$1'./' > $1SINE.fa
-cat $1SINEfiltered.out | awk '{
-	if ($9=="C")
-		print $5 " " $6 " " $7;
-	}' | cdbyank $1.fa.cidx -R | fasta_formatter | fastx_reverse_complement | sed 's/>/>'$1'./' >> $1SINE.fa
+## extract SINEs from RepeatMasker screens of assemblies
+## usage: ./extractSINE.sh TAXON
+## dependencies: 
+## 	samtools
+## 	cd-hit-est
+
+ASSEMBLY=~/Copy/$1/assembly
+RESULTS=~/Copy/$1/results
+
+cd $ASSEMBLY
+
+## loop extraction across all taxa
+for x in `cat $RESULTS/$1.lst`
+	do
+		cd $x/SINE
+		## filter out partial sequences (less than 100 bp)
+		#awk '{if ($7-$6>100) print $X; }' SINE.out > XXX.out
+		## cluster
+		cd-hit-est -i SINE.fas -o SINEclust.out -c 0.9 -n 8 -aL 0.9 -aS 0.9 -g 1
+		## append taxon name to fasta headers
+		sed "s/>/>$x./" SINEclust.out > SINEclust.fas
+		
+		cd $ASSEMBLY
+done
+
+## combine SINEs from all taxa
+cat */SINE/SINEclust.fas > $RESULTS/SINEcombined.fas
