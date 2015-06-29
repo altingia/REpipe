@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## extract LINEs or SINEs from RepeatMasker screens of assemblies
-## usage: ./extractNonLTR.sh LINE or ./extractNonLTR.sh SINE
+## usage: ./extractNonLTR.sh TAXON LINE or ./extractNonLTR.sh TAXON SINE
 ## dependencies: 
 ##	samtools
 ##	cd-hit-est
