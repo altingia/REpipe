@@ -4,23 +4,24 @@
 ## assembly files listed in TAXONAssembly.lst
 ## usage: ./domainprep.sh TAXON
 ## dependencies: 
-#	samtools
-#	repeatmasker
+##	samtools
+##	repeatmasker
 
 ASSEMBLY=~/Copy/$1/assembly
 RESULTS=~/Copy/$1/results
 
-for x in `cat $RESULTS/$1.lst`
+for x in `cat $RESULTS/$1Assembly.lst`
 	do 
 		## create directory structure
 		cd $ASSEMBLY
 		mkdir $ASSEMBLY/$x/contig		 			 			#setup directory
 		
 		## clean data
-		sed 's/n/N/' $x/*.fas > $ASSEMBLY/$x/contig/nuc.fas 	#remove lowercase ns from data
+		sed 's/n/N/' $x/*.fas > $ASSEMBLY/$x/contig/contig.fas 	#remove lowercase ns from data
 		
 		## index contigs
 		cd $ASSEMBLY/$x/contig 									#move to directory
+		cp contig.fas nuc.fas
 		samtools faidx contig.fas 								#index assembly file
 		
 		## run repeatmasker
