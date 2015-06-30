@@ -47,7 +47,7 @@ for CLASS in LTR LINE SINE Satellite rRNA DNA
 		samtools faidx contig/contig.fas $(cat $CLASS/$CLASS.lst) > $CLASS/$CLASS.fas 
 done
 	
-## PARSING LTR TYPES
+## CLASSIFY LTRs
 for RETRO in Gypsy Copia
 	do
 		grep $RETRO LTR/LTR.out > LTR/$RETRO.out
@@ -55,7 +55,7 @@ for RETRO in Gypsy Copia
 		samtools faidx contig/contig.fas $(cat LTR/$RETRO.lst) > LTR/$RETRO.fas
 done
 			
-## CLASSIFY DNA TEs BY SUPERFAMILY
+## CLASSIFY DNA TEs
 cd DNA
 
 for TE in EnSpm hAT MuDR PIF TcMar
