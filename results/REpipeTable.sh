@@ -11,10 +11,10 @@ JOIN=~/GitHub/REpipe
 cd $ASSEMBLY 
 
 # expand results
-	for x in *.tar.gz
-		do
-			tar -xvzf $x
-	done
+#	for x in *.tar.gz
+#		do
+#			tar -xvzf $x
+#	done
 
 # CONSTRUCT OUTFILE FOR EACH TAXON
 
@@ -22,11 +22,9 @@ mkdir $RESULTS/combine
 
 for x in `cat $RESULTS/$1.lst`
 	do
-
 	cd $ASSEMBLY/$x
 
 	## TOTAL CONTIGS + READS, ORGANELLAR CONTIGS + READS
-
 		cd contig
 		echo "contigs" | tee ../$x.out
 		wc -l contig.lst | tee -a ../$x.out
@@ -94,7 +92,6 @@ for x in `cat $RESULTS/$1.lst`
 		done
 								
 	## DNA TE SUPERFAMILY TE + READS
-
 	for TE in EnSpm hAT MuDR PIF TcMar
 		do
 			echo $TE.contigs | tee -a $x.out
@@ -108,7 +105,6 @@ for x in `cat $RESULTS/$1.lst`
 done
 
 # combine outfiles into table
-
 cd $RESULTS/combine
 
 # add 0 on empty lines, remove extra spaces at beginning of wc lines, remove wc filenames, paste adjacent lines
