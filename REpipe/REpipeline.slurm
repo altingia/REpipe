@@ -100,5 +100,3 @@ echo "repeatreads" | tee -a $OUT
 grep -f contig/contigRE.lst contig/contigReads.lst | awk '{s+=$3}END{print s}' | tee -a $OUT
 echo "retrotransposoncontigs"
 wc -l LTR/LTR.lst | tee -a $OUT
-echo "retrotransposon.fas"
-wc -l LTR/LTR.fas | tee -a $OUT
