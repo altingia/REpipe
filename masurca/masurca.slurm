@@ -30,7 +30,7 @@ for TAXON in `cat $1`
 	echo $TAXON
 	
 	#set up files and directories
-	mkdir $ASSEMBLY/$TAXON/masurca
+	mkdir $ASSEMBLY/$TAXON $ASSEMBLY/$TAXON/masurca
 	cd $ASSEMBLY/$TAXON/masurca
 
 	#run masurca
