@@ -69,11 +69,11 @@ OUT=$HOME/$1/$1.QCout
 	
 	## EXTRACT ORGANELLAR CONTIGS
 	cat mtcontigs.lst cpcontigs.lst | sort | uniq > contigCPMT.lst
-	#grep -v -f contigCPMT.lst contig.lst > nuc.lst
-	#samtools faidx contig.fas $(cat nuc.lst) > nuc.fas
-	## OR ONLY REMOVE CP CONTIGS
-	grep -v -f cpcontigs contig.lst > nuc.lst
+	grep -v -f contigCPMT.lst contig.lst > nuc.lst
 	samtools faidx contig.fas $(cat nuc.lst) > nuc.fas
+	## OR ONLY REMOVE CP CONTIGS
+	#grep -v -f cpcontigs contig.lst > nuc.lst
+	#samtools faidx contig.fas $(cat nuc.lst) > nuc.fas
 
 ## RUN REPEATMASKER ON ALL CONTIGS (start in taxon folder)
 	$REPEATMASKER/RepeatMasker -species liliopsida nuc.fas 
