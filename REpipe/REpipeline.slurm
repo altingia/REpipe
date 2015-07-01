@@ -69,10 +69,10 @@ OUT=$HOME/$1/$1.QCout
 	
 	## EXTRACT ORGANELLAR CONTIGS
 	cat mtcontigs.lst cpcontigs.lst | sort | uniq > contigCPMT.lst
-	#diff contig.lst contigCPMT.lst | awk '$2 ~ /ctg/ {print $2}' > nuc.lst
+	#grep -v -f contigCPMT.lst contig.lst > nuc.lst
 	#samtools faidx contig.fas $(cat nuc.lst) > nuc.fas
 	## OR ONLY REMOVE CP CONTIGS
-	diff contig.lst cpcontigs.lst | awk '$2 ~ /ctg/ {print $2}' > nuc.lst
+	grep -v -f cpcontigs contig.lst > nuc.lst
 	samtools faidx contig.fas $(cat nuc.lst) > nuc.fas
 
 ## RUN REPEATMASKER ON ALL CONTIGS (start in taxon folder)
