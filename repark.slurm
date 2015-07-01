@@ -5,9 +5,9 @@
 
 #SBATCH -J repark              # Job name
 #SBATCH -o repark.%j.out       # Name of stdout output file (%j expands to jobId)
-#SBATCH -p normal	      # Queue name
+#SBATCH -p development	      # Queue name
 #SBATCH -n 16                 # Total number of  tasks requested
-#SBATCH -t 24:00:00           # Run time (hh:mm:ss) 
+#SBATCH -t 2:00:00           # Run time (hh:mm:ss) 
 #SBATCH --mail-user k8hertweck@gmail.com
 #SBATCH --mail-type END
 
@@ -15,6 +15,8 @@
 
 module load velvet
 
+REPARK=$HOME/bin/RepARK
+
 # run RepARK
-$HOME/bin/RepARK/RepARK.pl -o $WORK/Anemarrhena_asphodeloides/repark -l EL03-100511trim.fastq.gz -a velvet -p 16  
-		
+$REPARK/RepARK.pl -o $WORK/TAXON -l $WORK/TAXON/GSStrim.fastq.gz -a velvet -p 16 -t 100 
+

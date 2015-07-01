@@ -20,9 +20,9 @@
 #SBATCH -J batchREpipe                 # Job name
 #SBATCH -N 1                   # Total number of nodes (16 cores/node)
 #SBATCH -n 16                   # Total number of tasks
-#SBATCH -p normal              # Queue name
+#SBATCH -p development              # Queue name
 #SBATCH -o batchREpipe.o%j             # Name of stdout output file (%j expands to jobid)
-#SBATCH -t 6:00:00            # Run time (hh:mm:ss)
+#SBATCH -t 2:00:00            # Run time (hh:mm:ss)
 #SBATCH --mail-user k8hertweck@gmail.com
 #SBATCH --mail-type END
 #      <------------ Account String ------------>
@@ -30,13 +30,11 @@
 #SBATCH -A monocotTE 
 #------------------------------------------------------
 
-set GROUP = $HOME/$1
-set REPIPE = $HOME/REpipeline/REpipeline.slurm
-
 module load launcher
+
 setenv EXECUTABLE     $TACC_LAUNCHER_DIR/init_launcher 
 setenv CONTROL_FILE   REscripts
-setenv WORKDIR        $GROUP
+setenv WORKDIR        $HOME/$1
 # 
 # Variable description:
 #
