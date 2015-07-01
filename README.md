@@ -25,42 +25,12 @@ From filtered reads:
 * graph-based quantification (RepeatExplorer)
 
 From assemblies (genomes or transcriptomes):
-* mineprep.sh: prepare fasta files for analysis and run RepeatMasker
-* mineREPEAT.sh: parse results by repeat type (SINE, LINE, copia, gypsy), filter for length (SINE 100, all others 2000), extract sequences, put in correct orientation
-* mineRT.sh: runs RPS-BLAST against RTV_1, RTV_2, RT_nLTR_like, extracts results for each, creates fasta file with sequences in correct orientation
-* mineINT.sh: runs RPS-BLAST against rve, creates fasta file with sequences in correct orientation
-* cdhitest.sh: cluster each species individually, then pool: maintain maximum diversity in each taxon
-* compile selected sequences from multiple species, translate to protein, align to muscle
-* minetree.sh: combine sequences of same type from different species, align with mafft, build tree wiht RAxML
+* domainPrep.sh: prepare fasta files for analysis and run RepeatMasker
+* RT.sh: runs RPS-BLAST against RTV_1, RTV_2, RT_nLTR_like, extracts fasta, clusters results
+* INT.sh: runs RPS-BLAST against rve, extracts fasta, clusters results
+* domainTree.sh: align with mafft, build tree wiht RAxML
 
 **Domains of interest**
 * RVT_2 (PF07727) - reverse transcriptase core domain that picks up Copia (and thus Sireviruses as well)
 * RVT_1 (PF00078) - reverse transcriptase core domain that picks up Gypsy
 * rve (PF00665) - the integrase core domain that works for both Copia/Gypsy
-
-**All domains**
-CDD PSSM_ID annotation
-
-RT
-* pfam07727 gnl|CDD|219537 RVT_2
-* pfam00078 gnl|CDD|215698 RVT_1
-* cd00304 gnl|CDD|238185 RT_like
-* cd01647 gnl|CDD|238825 RT-LTR
-* cd01650 gnl|CDD|238827 RT_nLTR_like
-
-INT
-* pfam00665 gnl|CDD|216050 rve
-
-Tase
-
-GAG
-
-RH
-* cd00304
-	* cd01647
-	* cd06150
-	
-* cl06662
-	* pfam07727
-	
-* pfam00078 (no assigned taxonomy)
