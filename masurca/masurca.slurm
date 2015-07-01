@@ -3,8 +3,9 @@
 # script to run masurca on TACC's Stampede for multiple taxa in a series
 # dependency:
 # 	masurca (path specified below)
-# taxa specified in list (taxa.lst) located in folder named $1
-# sequence files in folders with taxon names in $WORK
+# usage: sbatch masurca.slurm taxa.lst
+#	where "taxa.lst" is the list of species
+# sequence files and config.txt in folders with taxon names in $WORK
 # change -A option if anything other than monocotTE
 # From example SLURM job script job.mpi
 #----------------------------------------------------
@@ -20,10 +21,10 @@
 #SBATCH -A monocotTE	      # <-- Allocation name to charge job against
 
 MASURCA=$HOME/bin/MaSuRCA-2.3.2/bin
-GROUP=$HOME/$1
+WORK=$WORK
+HOME=$HOME
 
-cd $GROUP
-for TAXON in `cat taxa.lst`
+for TAXON in `cat $1`
   do
 	echo $TAXON
 	
@@ -32,10 +33,10 @@ for TAXON in `cat taxa.lst`
 	cd $WORK/$TAXON/masurca
 
 	#run masurca
-	$MASURCA/masurca $HOME/$TAXON/config.txt 
+	$MASURCA/masurca config.txt 
 	./assemble.sh
 
 	#transfer files
-	mkdir $HOME/$TAXON/assembly
-	cp $WORK/$TAXON/masurca/CA/9-terminator/* assemble.sh $HOME/$TAXON/config.txt $HOME/$TAXON/assembly
+	mkdir $HOME/$TAXON $HOME/$TAXON/masurcaAssembly
+	cp $WORK/$TAXON/masurca/CA/9-terminator/* assemble.sh $HOME/$TAXON/config.txt $HOME/$TAXON/masurcaAssembly
 done
