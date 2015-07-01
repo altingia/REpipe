@@ -12,31 +12,32 @@
 
 #SBATCH -J masurca              # Job name
 #SBATCH -o masurca.%j.out       # Name of stdout output file (%j expands to jobId)
-#SBATCH -p normal	      # Queue name
+#SBATCH -p development	      # Queue name
 #SBATCH -n 16                  # Total number of  tasks requested
-#SBATCH -t 6:00:00           # Run time (hh:mm:ss) 
+#SBATCH -t 2:00:00           # Run time (hh:mm:ss) 
 #SBATCH --mail-user k8hertweck@gmail.com
 #SBATCH --mail-type END
 
 #SBATCH -A monocotTE	      # <-- Allocation name to charge job against
 
 MASURCA=$HOME/bin/MaSuRCA-2.3.2/bin
-WORK=$WORK
-HOME=$HOME
+DATA=$WORK/data
+ASSEMBLY=$WORK/assembly
+ANNOTATE=$WORK/annotate
 
 for TAXON in `cat $1`
   do
 	echo $TAXON
 	
 	#set up files and directories
-	mkdir $WORK/$TAXON/masurca
-	cd $WORK/$TAXON/masurca
+	mkdir $ASSEMBLY/$TAXON/masurca
+	cd $ASSEMBLY/$TAXON/masurca
 
 	#run masurca
-	$MASURCA/masurca config.txt 
+	$MASURCA/masurca $DATA/$TAXON/$TAXON.config.txt 
 	./assemble.sh
 
 	#transfer files
-	mkdir $HOME/$TAXON $HOME/$TAXON/masurcaAssembly
-	cp $WORK/$TAXON/masurca/CA/9-terminator/* assemble.sh $HOME/$TAXON/config.txt $HOME/$TAXON/masurcaAssembly
+	mkdir $ANNOTATE/$TAXON/masurca
+	cp CA/9-terminator/* assemble.sh $DATA/$TAXON/$TAXON.config.txt $ANNOTATE/$TAXON/masurca
 done
