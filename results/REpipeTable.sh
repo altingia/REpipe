@@ -83,7 +83,7 @@ for x in `cat $RESULTS/$1.lst`
 		done
 		
 	## RETROTRANSPOSONS + READS
-		for RETRO in Gypsy Copia
+		for RETRO in Gypsy Copia Caulimovirus unassignedLTR
 			do
 				echo $RETRO.contigs | tee -a $x.out
 				wc -l LTR/$RETRO.lst | tee -a $x.out
