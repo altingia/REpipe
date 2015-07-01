@@ -2,7 +2,7 @@
 
 ## Prep input fasta file (assemblies from other people) and run RepeatMasker
 ## assembly files listed in TAXONAssembly.lst
-## usage: ./domainprep.sh TAXON
+## usage: ./assemblyPrep.sh TAXON
 ## dependencies: 
 ##	samtools
 ##	repeatmasker
