@@ -1,8 +1,8 @@
 #!/bin/csh
 
 # batch submission for REpipeline
-# usage: launchREpipe.slurm GROUP
-# specify each taxon to run using REscripts
+# usage: launchREpipe.slurm PATH/TO/REscripts/DIRECTORY
+# specify commands to run using REscripts
 #
 # Simple SGE script for submitting multiple serial
 # jobs (e.g. parametric studies) using a script wrapper
@@ -34,7 +34,7 @@ module load launcher
 
 setenv EXECUTABLE     $TACC_LAUNCHER_DIR/init_launcher 
 setenv CONTROL_FILE   REscripts
-setenv WORKDIR        $HOME/AgaveTEs/REpipe/$1
+setenv WORKDIR        $1
 # 
 # Variable description:
 #
