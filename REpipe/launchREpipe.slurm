@@ -34,7 +34,7 @@ module load launcher
 
 setenv EXECUTABLE     $TACC_LAUNCHER_DIR/init_launcher 
 setenv CONTROL_FILE   REscripts
-setenv WORKDIR        $HOME/$1
+setenv WORKDIR        $HOME/AgaveTEs/REpipe/$1
 # 
 # Variable description:
 #

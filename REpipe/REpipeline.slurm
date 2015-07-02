@@ -8,10 +8,8 @@
 #	samtools
 #	blast+ (and makeblastdb already run on $REF, see below)
 # usage: 
-# 	enter name of taxon as $1, fastq file as $2 (or enter batch in REscripts), reference file as $3
+#	./REpipeline.slurm TAXON FASTQ REFERENCE ASSEMBLY
 # run in batch using launchREpipe.slurm (disregards all slurm commands above)
-# taxa specified in list (taxa.lst) located in folder named $1
-# sequence files in folders with taxon names in $WORK
 # change -A option if anything other than monocotTE
 #----------------------------------------------------
 
@@ -29,14 +27,15 @@ module load bwa samtools blast
 
 REPEATMASKER=$HOME/bin/RepeatMasker
 
-DATA=$WORK/$1
+DATA=$WORK/data/$1
+ANNOTATE=$WORK/annotate/$1/$4
 REF=$HOME/refs/$3
 SCRIPTS=$HOME/REpipe/REpipe
-OUT=$HOME/$1/$1.QCout
+OUT=$ANNOTATE/$1.QCout
 
 ## SETUP FILES AND DIRECTORIES
 	echo "$1"
-	cd $HOME/$1
+	cd $ANNOTATE
 	
 	mkdir contig
 	cp assembly/genome.ctg.fasta contig/contig.fas
