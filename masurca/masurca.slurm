@@ -38,6 +38,7 @@ for TAXON in `cat $1`
 	./assemble.sh
 
 	#transfer files
-	mkdir $ANNOTATE/$TAXON/masurca
-	cp CA/9-terminator/* assemble.sh $DATA/$TAXON/$TAXON.config.txt $ANNOTATE/$TAXON/masurca
+	mkdir $ANNOTATE/$TAXON/masurca $ANNOTATE/$TAXON/masurca/assembly 
+	cp CA/9-terminator/* assemble.sh $DATA/$TAXON/$TAXON.config.txt $ANNOTATE/$TAXON/masurca/assembly
+	cp $ANNOTATE/$TAXON/masurca/assembly/genome.ctg.fasta $ANNOTATE/$TAXON/masurca/assembly/config.fas
 done
