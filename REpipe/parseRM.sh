@@ -55,17 +55,19 @@ done
 	
 ## CLASSIFY LTRs
 echo "classify LTRs"
+cd LTR
 for RETRO in Gypsy Copia Caulimovirus
 	do
 		echo $RETRO
-		grep $RETRO LTR/LTR.out > LTR/$RETRO.out
-		awk '{print $5}' LTR/$RETRO.out | sort | uniq > LTR/$RETRO.lst
-		samtools faidx contig/contig.fas $(cat LTR/$RETRO.lst) > LTR/$RETRO.fas
+		grep $RETRO LTR.out > $RETRO.out
+		awk '{print $5}' $RETRO.out | sort | uniq > $RETRO.lst
 done
 
 cat Gypsy.lst Copia.lst Caulimovirus.lst > LTRassigned.lst
 grep -v -f LTRassigned.lst LTR.lst > LTRunassigned.lst
-			
+
+cd ..
+		
 ## CLASSIFY DNA TEs
 echo "classify DNA TEs"
 cd DNA
