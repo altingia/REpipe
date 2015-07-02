@@ -23,22 +23,25 @@
 MASURCA=$HOME/bin/MaSuRCA-2.3.2/bin
 DATA=$WORK/data
 ASSEMBLY=$WORK/assembly
-ANNOTATE=$WORK/annotate
+
+mkdir $ASSEMBLY
 
 for TAXON in `cat $1`
   do
 	echo $TAXON
 	
-	#set up files and directories
-	mkdir $ASSEMBLY/$TAXON $ASSEMBLY/$TAXON/masurca
+	## set up files and directories
+	mkdir -p $ASSEMBLY/$TAXON/masurca
 	cd $ASSEMBLY/$TAXON/masurca
+	cp $DATA/$TAXON/$TAXON.config.txt .
 
-	#run masurca
-	$MASURCA/masurca $DATA/$TAXON/$TAXON.config.txt 
+	## run masurca
+	$MASURCA/masurca $TAXON.config.txt 
 	./assemble.sh
-
-	#transfer files
-	mkdir $ANNOTATE/$TAXON/masurca $ANNOTATE/$TAXON/masurca/assembly 
-	cp CA/9-terminator/* assemble.sh $DATA/$TAXON/$TAXON.config.txt $ANNOTATE/$TAXON/masurca/assembly
-	cp $ANNOTATE/$TAXON/masurca/assembly/genome.ctg.fasta $ANNOTATE/$TAXON/masurca/assembly/config.fas
+	
+	## archive results
+	mkdir assembly 
+	mv assemble.sh $TAXON.config.txt CA/9-terminator/* assembly/
+	cp assembly/genome.ctg.fasta assembly/contig.fas
+	tar -cvzf $x.masurca.tar.gz assembly/
 done

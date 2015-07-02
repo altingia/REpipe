@@ -28,16 +28,20 @@ module load bwa samtools blast
 REPEATMASKER=$HOME/bin/RepeatMasker
 
 DATA=$WORK/data/$1
+ASSEMBLY=$WORK/assembly/$1/$4
 ANNOTATE=$WORK/annotate/$1/$4
 REF=$HOME/refs/$3
 SCRIPTS=$HOME/REpipe/REpipe
+
+mkdir -p $ANNOTATE
 
 ## SETUP FILES AND DIRECTORIES
 	echo "$1"
 	cd $ANNOTATE
 	
-	mkdir contig
-	cp assembly/genome.ctg.fasta contig/contig.fas
+	mkdir contig archive
+	cp $ASSEMBLY/assembly/contig.fas $ASSEMBLY/assembly/$1.config.txt archive/
+	cp archive/contig.fas contig/contig.fas
 
 ## QUANTIFICATION	
 	
@@ -50,12 +54,14 @@ SCRIPTS=$HOME/REpipe/REpipe
 	
 	## MAP READS TO CONTIGS
 	bwa index contig.fas 
-	bwa mem contig.fas $DATA/$2 > $DATA/contig.sam
+	bwa mem contig.fas $DATA/$2 > contig.sam
 	
 	##SAM TO BAM CONVERSION AND SUMMARY
-	samtools view -bSu $DATA/contig.sam | samtools sort - $DATA/contig.sorted 
-	samtools index $DATA/contig.sorted.bam
-	samtools idxstats $DATA/contig.sorted.bam > contigReads.lst
+	samtools view -bSu contig.sam | samtools sort - contig.sorted 
+	samtools index contig.sorted.bam
+	samtools idxstats contig.sorted.bam > contigReads.lst
+	rm contig.sam
+	mv contig.sorted.bam contig.sorted.bam.bai ../archive/
 	
 ## REMOVE CP/MT FROM CONTIGS (START IN TAXON FOLDER) and reads
 	
@@ -75,6 +81,7 @@ SCRIPTS=$HOME/REpipe/REpipe
 
 ## RUN REPEATMASKER ON ALL CONTIGS (start in taxon folder)
 	$REPEATMASKER/RepeatMasker -species liliopsida nuc.fas 
+	cp nuc.fas.out ../archive
 
 ## RUN PARSING SCRIPT
 	$SCRIPTS/parseRM.sh
