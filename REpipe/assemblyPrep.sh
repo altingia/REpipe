@@ -35,15 +35,5 @@ for x in `cat $RESULTS/$1Assembly.lst`
 		echo "parsing RM"
 		$SCRIPTS/parseRM.sh
 
-		## QC SUMMARY
-		echo "QC"
-		cd $ASSEMBLY/$x
-		echo "contigs" | tee $OUT
-		wc -l contig/contig.lst | tee -a $OUT
-		echo "repeatcontigs" | tee -a $x.QCout
-		wc -l contig/contigRE.lst | tee -a $x.QCout
-		echo "retrotransposoncontigs" | tee -a $x.QCout
-		wc -l LTR/LTR.lst | tee -a $x.QCout
-
 done
  
