@@ -40,7 +40,7 @@ mkdir -p $ANNOTATE
 	cd $ANNOTATE
 	
 	mkdir contig archive
-	cp $ASSEMBLY/assembly/contig.fas $ASSEMBLY/assembly/$1.config.txt archive/
+	cp $ASSEMBLY/contig.fas archive/
 	cp archive/contig.fas contig/contig.fas
 
 ## QUANTIFICATION	
