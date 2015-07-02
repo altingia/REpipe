@@ -31,7 +31,6 @@ DATA=$WORK/data/$1
 ANNOTATE=$WORK/annotate/$1/$4
 REF=$HOME/refs/$3
 SCRIPTS=$HOME/REpipe/REpipe
-OUT=$ANNOTATE/$1.QCout
 
 ## SETUP FILES AND DIRECTORIES
 	echo "$1"
@@ -79,23 +78,3 @@ OUT=$ANNOTATE/$1.QCout
 
 ## RUN PARSING SCRIPT
 	$SCRIPTS/parseRM.sh
-
-## QC SUMMARY
-cd $HOME/$1
-echo "QC SUMMARY"
-echo "contigs" | tee $OUT
-wc -l contig/contig.lst | tee -a $OUT
-echo "mappedreads" | tee -a $OUT
-awk '{s+=$3}END{print s}' contig/contigReads.lst | tee -a $OUT
-echo "unmappedreads" | tee -a $OUT
-awk '{s+=$4}END{print s}' contig/contigReads.lst | tee -a $OUT
-echo "orgcontigs" | tee -a $OUT
-wc -l contig/contigCPMT.lst | tee -a $OUT
-echo "orgreads" | tee -a $OUT
-grep -f contig/contigCPMT.lst contig/contigReads.lst | awk '{s+=$3}END{print s}' | tee -a $OUT
-echo "repeatcontigs" | tee -a $OUT
-wc -l contig/contigRE.lst | tee -a $OUT
-echo "repeatreads" | tee -a $OUT
-grep -f contig/contigRE.lst contig/contigReads.lst | awk '{s+=$3}END{print s}' | tee -a $OUT
-echo "retrotransposoncontigs"
-wc -l LTR/LTR.lst | tee -a $OUT
