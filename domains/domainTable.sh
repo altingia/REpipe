@@ -10,13 +10,12 @@ DOMAIN=~/data/domains
 SCRIPTS=~/GitHub/REpipe
 
 mkdir -p $RESULTS/$2/summary
-cd $ANNOTATE
 
 ## summarize domain for each taxon
 for x in `cat $3`
 	do
 		echo $x
-		cd $x/$2
+		cd $ANNOTATE/$x/$2
 		
 		echo $2.hits | tee -a $x.$2.out
 		wc -l $2all.out | tee -a $x.$2.out
