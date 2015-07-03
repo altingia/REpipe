@@ -52,6 +52,8 @@ for x in `cat $3`
 				print $1":"$7"-"$8;
 				else 
 				print $1":"$8"-"$7}' > $type.lst
+			## make list of unique names
+			cut -f 1 $type.lst | sort | uniq > $type.uniq.lst
 			## pull out fasta
 			split $type.lst $type.lst.
 			echo $type.fas
