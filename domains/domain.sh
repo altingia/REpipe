@@ -65,11 +65,3 @@ for x in `cat $3`
 	
 	cd $ANNOTATE			
 done
-
-## combine different domains from different taxa 
-mkdir $RESULTS/$2
-for type in `cat $DOMAIN/$2cdd.lst`
-	do
-	cat */$2/$type.clust.fas > $RESULTS/$2/$type.combined.fas
-	grep ">" $RESULTS/$2/$type.combined.fas | wc -l
-done
