@@ -1,35 +1,39 @@
 #!/bin/bash
 
 ## Prep input fasta file (assemblies from other people) and run RepeatMasker
-## assembly files listed in TAXONAssembly.lst
-## usage: ./assemblyPrep.sh TAXON
+## usage: ./assemblyPrep.sh TAXON LIST
 ## dependencies: 
 ##	samtools
 ##	repeatmasker
 
-ASSEMBLY=~/Copy/$1/assembly
+DATA=~/Copy/$1/data
+ANNOTATE=~/Copy/$1/annotate
 RESULTS=~/Copy/$1/results
 SCRIPTS=~/GitHub/REpipe/REpipe
 
-for x in `cat $RESULTS/$1Assembly.lst`
+for x in `cat $2`
 	do 
 		echo $x
 		## create directory structure
-		cd $ASSEMBLY
-		mkdir $ASSEMBLY/$x/contig		 			 			#setup directory
+		mkdir -p $ANNOTATE/$x/archive
+		cd $DATA/$x
 		
-		## clean data
-		sed 's/n/N/' $x/*.fas > $ASSEMBLY/$x/contig/contig.fas 	#remove lowercase ns from data
+		## clean data (remove lowercase ns and transfer to annotate folder)
+		sed 's/n/N/' *.fas > $ANNOTATE/$x/archive/contig.fas
 		
 		## prep files
-		cd $ASSEMBLY/$x/contig 									#move to directory
-		grep ">" contig.fas | sed 's/>//' > contig.lst			#list contigs
+		cd $ANNOTATE/$x
+		#mkdir contig
+		cp archive/contig.fas contig/contig.fas
+		cd contig
+		grep ">" contig.fas | sed 's/>//' > contig.lst			# list contigs
 		cp contig.fas nuc.fas
 		cp contig.lst nuc.lst
-		samtools faidx contig.fas 								#index assembly file
+		samtools faidx contig.fas 								# index assembly file
 		
 		## run repeatmasker
-		RepeatMasker -species liliopsida nuc.fas 				#run repeatmasker
+		RepeatMasker -species liliopsida nuc.fas				# run repeatmasker
+		cp nuc.fas.out ../archive
 
 		## RUN PARSING SCRIPT
 		echo "parsing RM"
