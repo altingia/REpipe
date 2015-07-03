@@ -50,7 +50,13 @@ for x in `cat $3`
 				else 
 				print $1":"$8"-"$7}' > $type.lst
 			## pull out fasta
-			samtools faidx ../contig/contig.fas $(cat $type.lst) | sed s/:/./ > $type.fas
+			split $type.lst $type.lst.
+			echo $type.fas
+			for y in $type.lst.*
+				do
+					samtools faidx ../contig/contig.fas $(cat $y) | sed s/:/./ >> $type.fas
+					rm $y
+			done
 			## cluster hits
 			cd-hit-est -i $type.fas -o $type.clust.out -c 0.9 -n 8 -aL 0.9 -aS 0.9 -g 1
 			## append taxon name to fasta headers
