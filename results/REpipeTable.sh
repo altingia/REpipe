@@ -1,28 +1,20 @@
 #!/bin/bash
 
 # PROCESS OUTFILES FROM REpipeline
-# specify taxon as $1
-# dependency: joinTables.R
+# usage: ./REpipeTable.sh TAXON TAXA.LST
+# dependency: joinTables.R 
 
+ANNOTATE=~/Copy/$1/annotate
 RESULTS=~/Copy/$1/results
-ASSEMBLY=~/Copy/$1/assembly
-JOIN=~/GitHub/REpipe
+SCRIPTS=~/GitHub/REpipe/results
 
-cd $ASSEMBLY 
-
-# expand results
-#	for x in *.tar.gz
-#		do
-#			tar -xvzf $x
-#	done
+mkdir -p $RESULTS/combine
 
 # CONSTRUCT OUTFILE FOR EACH TAXON
 
-mkdir $RESULTS/combine
-
-for x in `cat $RESULTS/$1.lst`
+for x in `cat $2`
 	do
-	cd $ASSEMBLY/$x
+	cd $ANNOTATE/$x
 
 	## TOTAL CONTIGS + READS, ORGANELLAR CONTIGS + READS
 		cd contig
@@ -118,7 +110,7 @@ cd $RESULTS/combine
 	chmod +x accessions.lst
 	
 # join all accessions together
-R CMD BATCH $JOIN/results/joinTables.R
+R CMD BATCH $SCRIPTS/results/joinTables.R
 tr -d " " < temp.csv > $RESULTS/REpipeResults.csv
 cd ..
 rm -r combine/
