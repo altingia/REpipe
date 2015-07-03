@@ -17,19 +17,19 @@ for x in `cat $3`
 		echo $x
 		cd $ANNOTATE/$x/$2
 		
-		echo $2.hits | tee -a $x.$2.out
-		wc -l $2all.out | tee -a $x.$2.out
+		echo $2.hits | tee -a $x.out
+		wc -l $2all.out | tee -a $x.out
 		
 		## summarize by type of each domain
 		for type in `cat $DOMAIN/$2cdd.lst`
 			do
-			echo $2.$type.hits | tee -a $x.$2.out
-			wc -l $type.lst | tee -a $x.$2.out
-			echo $2.$type.clust | tee -a $x.$2.out
-			grep ">" $type.clust.out | wc -l | tee -a $x.$2.out
+			echo $2.$type.hits | tee -a $x.out
+			wc -l $type.lst | tee -a $x.out
+			echo $2.$type.clust | tee -a $x.out
+			grep ">" $type.clust.out | wc -l | tee -a $x.out
 		done
 	
-	cp $x.$2.out $RESULTS/$2/summary	
+	cp $x.out $RESULTS/$2/summary	
 done
 
 # combine outfiles into table
@@ -47,6 +47,6 @@ cd $RESULTS/$2/summary
 	
 # join all accessions together
 R CMD BATCH $SCRIPTS/results/joinTables.R
-tr -d " " < temp.csv > $RESULTS/$2.Results.csv
+tr -d " " < temp.csv > $RESULTS/$2/$2.Results.csv
 #cd ..
 #rm -r combine/
