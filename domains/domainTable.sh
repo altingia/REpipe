@@ -24,7 +24,7 @@ for x in `cat $3`
 		for type in `cat $DOMAIN/$2cdd.lst`
 			do
 			echo $2.$type.hits | tee -a $x.out
-			wc -l $type.lst | tee -a $x.out
+			wc -l $type.uniq.lst | tee -a $x.out
 			echo $2.$type.clust | tee -a $x.out
 			grep ">" $type.clust.out | wc -l | tee -a $x.out
 		done
