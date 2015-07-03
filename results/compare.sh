@@ -1,22 +1,28 @@
 #!/bin/bash
 
-## compares contigs identified as TEs from different methods
-## usage: ./compare.sh TAXON
+## compares contigs identified as TEs from different methods, focus on those of primary interest
+## usage: ./compare.sh TAXON TAXON.LST
 
-ASSEMBLY=~/Copy/$1/assembly
+ANNOTATE=~/Copy/$1/annotate
 RESULTS=~/Copy/$1/results
 
 ## loop across all taxa
-for x in `cat $RESULTS/$1.lst`
+for x in `cat $2`
 	do
-		cd $ASSEMBLY/$x
+		cd $ANNOTATE/$x
+		mkdir compare
 		
 		## count all annotated contigs
-		#cat contig/annotate.lst INT/XXX RT/XXX | sort | uniq -c > allOverlap.lst
+		for domain in INT RT RH GAG
+			do
+				cp $domain/*all.lst compare/
+		done	
+		
+		cat contig/annotate.lst compare/*.lst | sort | uniq -c | sort -r > compare/allOverlap.lst
 		
 		## RTV_1 (core domain for Gypsy) overlap with RM Gypsy
-		sed s/:.*$// RT/249567.lst | cat - LTR/Gypsy.lst | sort | uniq -c > GypsyRTV_1.lst
+		sed s/:.*$// RT/249567.lst | cat - LTR/Gypsy.lst | sort | uniq -c > compare/GypsyRTV_1.lst
 		
 		## RTV_2 (core domain for Copia/Sireviruses) overlap with RM Copia
-		sed s/:.*$// RT/254387.lst | cat - LTR/Copia.lst | sort | uniq -c > CopiaRTV_2.lst
+		sed s/:.*$// RT/254387.lst | cat - LTR/Copia.lst | sort | uniq -c > compare/CopiaRTV_2.lst
 done	
