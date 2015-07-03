@@ -17,7 +17,7 @@ for x in `cat $3`
 		echo $x
 		cd $ANNOTATE/$x/$2
 		
-		echo $2.hits | tee -a $x.out
+		echo $2.hits | tee $x.out
 		wc -l $2all.lst | tee -a $x.out
 		
 		## summarize by type of each domain
