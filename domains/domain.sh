@@ -10,10 +10,12 @@
 
 ANNOTATE=~/Copy/$1/annotate
 RESULTS=~/Copy/$1/results
+SCRIPTS=~/GitHub/REpipe
 DOMAIN=~/data/domains
 
 ## make custom rps-blast library
 cd $DOMAIN/CDD/cdd
+cp $SCRIPTS/domains/$2.pn $DOMAIN/
 cp ../../$2.pn .
 makeprofiledb -in $2.pn -out $2
 mv $2.* ../../
