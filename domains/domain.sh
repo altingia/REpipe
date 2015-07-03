@@ -1,14 +1,14 @@
 #!/bin/bash
 
-## search for reverse transcriptase domains from assemblies
-## usage: ./domain.sh TAXON DOMAIN
+## search for domains from assemblies
+## usage: ./domain.sh TAXON DOMAIN TAXON.lst
 ## taxa to be analyzed in TAXON.lst, models in DOMAIN.pn
 ## dependencies: 
 #	blast+ (makeprofiledb, rpstblastn)
 #	samtools (index created in previous script)
 #	cd-hit-est
 
-ASSEMBLY=~/Copy/$1/assembly
+ANNOTATE=~/Copy/$1/annotate
 RESULTS=~/Copy/$1/results
 DOMAIN=~/data/domains
 
@@ -22,12 +22,12 @@ mv $2.* ../../
 cd ../../
 for x in `cat $2.pn`; do grep "tag id" CDD/cdd/$x ; done | sed s/\ //g | sed s/tagid// > $2cdd.lst
 
-cd $ASSEMBLY
+cd $ANNOTATE
 mkdir $RESULTS/$2
 echo $2 > $RESULTS/$2/$1$2.out
 
-## extract reverse transcriptase domains from each taxon
-for x in `cat $RESULTS/$1.lst`
+## extract domains from each taxon
+for x in `cat $3`
 	do
 		echo $x
 		cd $x
@@ -64,10 +64,10 @@ for x in `cat $RESULTS/$1.lst`
 			sed "s/>/>$x./" $type.clust.out > $type.clust.fas
 		done
 	
-	cd $ASSEMBLY			
+	cd $ANNOTATE			
 done
 
-## combine different $2s from different taxa 
+## combine different domains from different taxa 
 for type in `cat $DOMAIN/$2cdd.lst`
 	do
 	cat */$2/$type.clust.fas > $RESULTS/$2/$type.combined.fas
