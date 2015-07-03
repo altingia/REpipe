@@ -65,6 +65,7 @@ done
 
 cat Gypsy.lst Copia.lst Caulimovirus.lst > LTRassigned.lst
 grep -v -f LTRassigned.lst LTR.lst > LTRunassigned.lst
+touch LTRunassigned.lst
 
 cd ..
 		

@@ -30,6 +30,8 @@ for x in `cat $2`
 		cp contig.fas nuc.fas
 		cp contig.lst nuc.lst
 		samtools faidx contig.fas 								# index assembly file
+		echo -e 'X\t0\t0\t0\t0' > contigReads.lst				# create dummy read file
+		touch cpcontigs.lst mtcontigs.lst contigCPMT.lst		# create dummy org files
 		
 		## run repeatmasker
 		RepeatMasker -species liliopsida nuc.fas				# run repeatmasker
