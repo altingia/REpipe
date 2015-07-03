@@ -39,6 +39,7 @@ for x in `cat $3`
 		### Simplify rps-blast output and filter results shorter than 120
 		## extract positive hits
 		grep "gnl" $2rpsblast.out > $2all.out
+		cut -f 1 $2all.out | sort | uniq > $2all.lst
 		## filter out hits less than 100 aa in length
 		#awk '{if ($4 > 100) print $0}' $2all.out > $2length.out
 		
