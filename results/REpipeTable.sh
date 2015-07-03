@@ -6,7 +6,7 @@
 
 ANNOTATE=~/Copy/$1/annotate
 RESULTS=~/Copy/$1/results
-SCRIPTS=~/GitHub/REpipe/results
+SCRIPTS=~/GitHub/REpipe
 
 mkdir -p $RESULTS/combine
 
@@ -75,7 +75,8 @@ for x in `cat $2`
 		done
 		
 	## RETROTRANSPOSONS + READS
-		for RETRO in Gypsy Copia Caulimovirus unassignedLTR
+		
+		for RETRO in Gypsy Copia Caulimovirus LTRunassigned
 			do
 				echo $RETRO.contigs | tee -a $x.out
 				wc -l LTR/$RETRO.lst | tee -a $x.out
@@ -113,4 +114,4 @@ cd $RESULTS/combine
 R CMD BATCH $SCRIPTS/results/joinTables.R
 tr -d " " < temp.csv > $RESULTS/REpipeResults.csv
 cd ..
-rm -r combine/
+#rm -r combine/
