@@ -41,7 +41,7 @@ for x in `cat $3`
 		grep "gnl" $2rpsblast.out > $2raw.out
 		cut -f 1 $2raw.out | sort | uniq > $2raw.lst
 		## filter out hits less than 27 aa (ca 80 bp) in length
-		awk '{if ($4 > 80) print $0}' $2raw.out > $2all.out
+		awk '{if ($4 > 27) print $0}' $2raw.out > $2all.out
 		cut -f 1 $2all.out | sort | uniq > $2all.lst
 		
 		## separate by $2 type
