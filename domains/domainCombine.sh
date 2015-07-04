@@ -10,6 +10,7 @@ DOMAIN=~/data/domains
 mkdir $RESULTS/$2
 
 cd $ANNOTATE
+echo -n > $RESULTS/$2/$2.combine.out
 
 ## create master fasta and recluster
 for type in `cat $DOMAIN/$2cdd.lst`
@@ -17,7 +18,7 @@ for type in `cat $DOMAIN/$2cdd.lst`
 		cat */$2/$type.clust.fas > $RESULTS/$2/$type.combine.fas
 		echo $2.$type.all | tee -a $RESULTS/$2/$2.combine.out
 		grep ">" $RESULTS/$2/$type.combine.fas | wc -l | tee -a $RESULTS/$2/$2.combine.out
-		cd-hit-est -i $RESULTS/$2/$type.combine.fas -o $RESULTS/$2/$type.combine.clust.out -c 0.9 -n 8 -aL 0.9 -aS 0.9 -g 1
+		cd-hit-est -i $RESULTS/$2/$type.combine.fas -o $RESULTS/$2/$type.combine.clust.out -c 0.8 -n 8 -aL 0.8 -aS 0.8 -g 1
 		echo $2.$type.clust | tee -a $RESULTS/$2/$2.combine.out
 		grep ">" $RESULTS/$2/$type.combine.clust.out | wc -l | tee -a $RESULTS/$2/$2.combine.out
 done

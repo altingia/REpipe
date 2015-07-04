@@ -62,7 +62,7 @@ for x in `cat $3`
 					rm $y
 			done
 			## cluster hits
-			cd-hit-est -i $type.fas -o $type.clust.out -c 0.9 -n 8 -aL 0.9 -aS 0.9 -g 1
+			cd-hit-est -i $type.fas -o $type.clust.out -c 0.8 -n 8 -aL 0.8 -aS 0.8 -g 1
 			## append taxon name to fasta headers
 			sed "s/>/>$x./" $type.clust.out > $type.clust.fas
 		done
