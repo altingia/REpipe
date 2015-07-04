@@ -13,12 +13,17 @@ RESULTS=~/Copy/$1/results
 SCRIPTS=~/GitHub/REpipe
 DOMAIN=~/data/domains
 
+mkdir $RESULTS/domains
 cd $ANNOTATE
 
-## loop across all domains
+## loop across all domains for each script
 for x in GAG INT RT RH
 	do
 		$SCRIPTS/domains/domain.sh $1 $x $2
 		$SCRIPTS/domains/domainTable.sh $1 $x $2
 		$SCRIPTS/domains/domainCombine.sh $1 $x
+		cp $RESULTS/$x/$x.combine.table $RESULTS/domains
 done
+
+cd $RESULTS/domains
+cat *.combine.table > domains.combine.table
