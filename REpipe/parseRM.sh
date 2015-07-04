@@ -6,6 +6,8 @@
 #	samtools
 # usage: 
 # 	used internally by REpipeline.slurm and assemblyPrep.sh
+#	to run on command line:
+#	for x in `cat LIST.lst`; do; cd $ANNOTATE/$x/contig; parseRM.sh; done
 #-------------------------------------------------------
 
 ## REMOVE CONFOUNDING HITS FROM REPEATMASKER OUTPUT
