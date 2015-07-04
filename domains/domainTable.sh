@@ -18,12 +18,14 @@ for x in `cat $3`
 		cd $ANNOTATE/$x/$2
 		
 		echo $2.hits | tee $x.out
-		wc -l $2all.lst | tee -a $x.out
+		wc -l $2all.out | tee -a $x.out
 		
 		## summarize by type of each domain
 		for type in `cat $DOMAIN/$2cdd.lst`
 			do
 			echo $2.$type.hits | tee -a $x.out
+			wc -l $type.lst | tee -a $x.out
+			echo $2.$type.uniq.contigs 
 			wc -l $type.uniq.lst | tee -a $x.out
 			echo $2.$type.clust | tee -a $x.out
 			grep ">" $type.clust.out | wc -l | tee -a $x.out

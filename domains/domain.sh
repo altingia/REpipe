@@ -39,10 +39,8 @@ for x in `cat $3`
 		### Simplify rps-blast output and filter results shorter than 120
 		## extract positive hits
 		grep "gnl" $2rpsblast.out > $2raw.out
-		cut -f 1 $2raw.out | sort | uniq > $2raw.lst
 		## filter out hits less than 27 aa (ca 80 bp) in length
 		awk '{if ($4 > 27) print $0}' $2raw.out > $2all.out
-		cut -f 1 $2all.out | sort | uniq > $2all.lst
 		
 		## separate by $2 type
 		for type in `cat $DOMAIN/$2cdd.lst`
@@ -54,10 +52,10 @@ for x in `cat $3`
 				else 
 				print $1":"$8"-"$7}' > $type.lst
 			## make list of unique names
-			cut -f 1 $type.lst | sort | uniq > $type.uniq.lst
+			cut -d : -f 1 $type.lst | sort | uniq > $type.uniq.lst
 			## pull out fasta
 			split $type.lst $type.lst.
-			echo $type.fas
+			echo -n > $type.fas
 			for y in $type.lst.*
 				do
 					samtools faidx ../contig/contig.fas $(cat $y) | sed s/:/./ >> $type.fas
