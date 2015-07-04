@@ -16,7 +16,7 @@ for GROUP in RC Low-complexity Simple-repeat Helitron
 		grep "$GROUP" nuc.fas.out > $GROUP.lst
 done
 	
-grep -v "RC" nuc.fas.out | grep -v "Low-complexity" | grep -v "Simple_repeat" | grep -v "Helitron" > nojunk.fas.out
+grep -v "RC" nuc.fas.out | grep -v "Low_complexity" | grep -v "Simple_repeat" | grep -v "Helitron" > nojunk.fas.out
 	
 ## TOTAL REPEAT READS MAPPED (AMBIGUOUS + ANNOTATED)
 tail -n+4  nojunk.fas.out | awk '{print $5}' | sort | uniq > contigRE.lst
