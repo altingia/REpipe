@@ -9,14 +9,20 @@
 #-------------------------------------------------------
 
 ## REMOVE CONFOUNDING HITS FROM REPEATMASKER OUTPUT
-echo "remove confounding"
+## remove hits less than 80 bp in length
+echo "remove short"
+awk '{if (($7-$6)>79) print $0}' nuc.fas.out > long.fas.out
+
+## remove unwanted categories of hits
+echo "remove unwanted categories"
 for GROUP in RC Low-complexity Simple-repeat Helitron
 	do
 		echo $GROUP
-		grep "$GROUP" nuc.fas.out > $GROUP.lst
+		grep "$GROUP" long.fas.out > $GROUP.lst
 done
-	
-grep -v "RC" nuc.fas.out | grep -v "Low_complexity" | grep -v "Simple_repeat" | grep -v "Helitron" > nojunk.fas.out
+
+## create list of no junk for further processing
+grep -v "RC" long.fas.out | grep -v "Low_complexity" | grep -v "Simple_repeat" | grep -v "Helitron" > nojunk.fas.out
 	
 ## TOTAL REPEAT READS MAPPED (AMBIGUOUS + ANNOTATED)
 tail -n+4  nojunk.fas.out | awk '{print $5}' | sort | uniq > contigRE.lst
