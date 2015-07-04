@@ -19,6 +19,8 @@ for x in `cat $3`
 		
 		echo $2.hits | tee $x.out
 		wc -l $2all.out | tee -a $x.out
+		echo $2.contigs | tee -a $x.out
+		wc -l $2all.lst | tee -a $x.out
 		
 		## summarize by type of each domain
 		for type in `cat $DOMAIN/$2cdd.lst`

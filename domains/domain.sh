@@ -41,6 +41,8 @@ for x in `cat $3`
 		grep "gnl" $2rpsblast.out > $2raw.out
 		## filter out hits less than ca 80 bp in length
 		awk '{if ($4 > 80) print $0}' $2raw.out > $2all.out
+		## create list for combining
+		cut -f 1 $2all.out | sort | uniq > $2all.lst
 		
 		## separate by $2 type
 		for type in `cat $DOMAIN/$2cdd.lst`
