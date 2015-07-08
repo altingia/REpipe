@@ -19,11 +19,12 @@ for x in `cat $2`
 		cd $ASSEMBLY/$x
 		
 		## clean data (remove lowercase ns and transfer to annotate folder)
-		sed 's/n/N/' *.fas > $ANNOTATE/$x/archive/contig.fas
+		#sed 's/n/N/' *.fas > $ANNOTATE/$x/archive/contig.fas
+		cp $x.fas $ANNOTATE/$x/archive/contig.fas
 		
 		## prep files
 		cd $ANNOTATE/$x
-		#mkdir contig
+		mkdir contig
 		cp archive/contig.fas contig/contig.fas
 		cd contig
 		grep ">" contig.fas | sed 's/>//' > contig.lst			# list contigs
