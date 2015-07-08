@@ -3,7 +3,7 @@
 ## combine domain results for all taxa in one fasta
 ## usage: ./domainCombine.sh TAXON DOMAIN
 
-ANNOTATE=~/Copy/$1/annotate
+ANNOTATE=~/data/$1/annotate
 RESULTS=~/Copy/$1/results
 DOMAIN=~/data/domains
 

@@ -4,7 +4,7 @@
 ## usage: ./domainTable.sh TAXON DOMAIN TAXON.lst
 ## taxa to be analyzed in TAXON.lst
 
-ANNOTATE=~/Copy/$1/annotate
+ANNOTATE=~/data/$1/annotate
 RESULTS=~/Copy/$1/results
 DOMAIN=~/data/domains
 SCRIPTS=~/GitHub/REpipe

@@ -8,7 +8,7 @@
 #	samtools (index created in previous script)
 #	cd-hit-est
 
-ANNOTATE=~/Copy/$1/annotate
+ANNOTATE=~/data/$1/annotate
 RESULTS=~/Copy/$1/results
 SCRIPTS=~/GitHub/REpipe
 DOMAIN=~/data/domains
