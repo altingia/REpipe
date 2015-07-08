@@ -6,8 +6,8 @@
 ##	samtools
 ##	repeatmasker
 
-DATA=~/Copy/$1/data
-ANNOTATE=~/Copy/$1/annotate
+ASSEMBLY=~/Copy/$1/assembly
+ANNOTATE=~/data/$1/annotate
 RESULTS=~/Copy/$1/results
 SCRIPTS=~/GitHub/REpipe/REpipe
 
@@ -16,7 +16,7 @@ for x in `cat $2`
 		echo $x
 		## create directory structure
 		mkdir -p $ANNOTATE/$x/archive
-		cd $DATA/$x
+		cd $ASSEMBLY/$x
 		
 		## clean data (remove lowercase ns and transfer to annotate folder)
 		sed 's/n/N/' *.fas > $ANNOTATE/$x/archive/contig.fas
