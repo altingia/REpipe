@@ -8,7 +8,7 @@ ANNOTATE=~/Copy/$1/annotate
 RESULTS=~/Copy/$1/results
 
 ## loop across all taxa
-for x in Anemarrhena_asphodeloides #`cat $2`
+for x in `cat $2`
 	do
 		cd $ANNOTATE/$x
 		mkdir compareTrans
@@ -18,15 +18,17 @@ for x in Anemarrhena_asphodeloides #`cat $2`
 		## RM Gypsy
 		## RTV_1 (core domain for Gypsy) 249567
 		## rve (integrase for Copia and Gypsy) 250040 
-		#cat LTR/Gypsy.fas $ANNOTATE/"$x"_trans/LTR/Gypsy.fas > compareTrans/GypsyCompare.fas
-		#cat RT/249567.fas $ANNOTATE/"$x"_trans/RT/249567.fas > compareTrans/249567Compare.fas
-		#cat INT/250040.fas $ANNOTATE/"$x"_trans/INT/250040.fas > compareTrans/250040Compare.fas
+		cat LTR/Gypsy.fas $ANNOTATE/"$x"_trans/LTR/Gypsy.fas > compareTrans/GypsyCompare.fas
+		cat RT/249567.fas $ANNOTATE/"$x"_trans/RT/249567.fas > compareTrans/249567Compare.fas
+		cat INT/250040.fas $ANNOTATE/"$x"_trans/INT/250040.fas > compareTrans/250040Compare.fas
 				
 		## Copia, Ty1
 		## RM Copia
 		## RTV_2 (core domain for Copia/Sireviruses) 254387 
 		## rve (integrase for Copia and Gypsy) 250040 
-		#cat LTR/Copia.fas RT/254387.fas INT/250040.fas > compareTrans/CopiaCompare.fas
+		cat LTR/Copia.fas $ANNOTATE/"$x"_trans/LTR/Copia.fas > compareTrans/CopiaCompare.fas
+		cat RT/254387.fas $ANNOTATE/"$x"_trans/RT/254387.fas > compareTrans/254387Compare.fas
+		cat INT/250040.fas $ANNOTATE/"$x"_trans/INT/250040.fas > compareTrans/250040Compare.fas
 		
 		## DIRS
 		## RT_DIRS1 239684
