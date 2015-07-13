@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## compares contigs identified as TEs from different methods, focus on those of primary interest
-## usage: ./compare.sh TAXON TAXON.LST
+## usage: ./compareAnnotation.sh TAXON TAXON.LST
 
 ANNOTATE=~/Copy/$1/annotate
 RESULTS=~/Copy/$1/results
