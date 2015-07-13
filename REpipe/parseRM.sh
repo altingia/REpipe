@@ -45,7 +45,13 @@ tail -n+4  annotate.fas.out | awk '{print $5}' | sort | uniq > annotate.lst
 ## UNANNOTATED CONTIGS (INCLUDING JUNK)
 grep -v -f contigRE.lst nuc.lst > unannotated.lst
 ## EXTRACT UNANNOTATED CONTIGS TO BLAST LATER
-samtools faidx contig.fas $(cat unannotated.lst) > unannotated.fas	
+split unannotated.lst unannotated.lst.
+echo -n > unannotated.fas
+for y in unannotated.lst.*
+	do
+		samtools faidx contig.fas $(cat $y) | sed s/:/./ >> unannotated.fas	
+		rm $y
+done
 
 ## PARSING INTO REPEAT CLASSES
 cd ..
@@ -57,8 +63,14 @@ for CLASS in LTR LINE SINE Satellite rRNA DNA
 	do
 		echo $CLASS
 		grep $CLASS contig/annotate.fas.out > $CLASS/$CLASS.out
-		awk '{print $5}' $CLASS/$CLASS.out | sort | uniq > $CLASS/$CLASS.lst
-		samtools faidx contig/contig.fas $(cat $CLASS/$CLASS.lst) > $CLASS/$CLASS.fas 
+		awk '{print $5}' $CLASS/$CLASS.out | sort | uniq > $CLASS/$CLASS.lst		
+		split $CLASS/$CLASS.lst $CLASS/$CLASS.lst.
+		echo -n > $CLASS/$CLASS.fas
+		for y in $CLASS/$CLASS.lst.*
+			do
+				samtools faidx contig/contig.fas $(cat $y) | sed s/:/./ >> $CLASS/$CLASS.fas	
+				rm $y
+		done	
 done
 	
 ## CLASSIFY LTRs
@@ -69,6 +81,13 @@ for RETRO in Gypsy Copia Caulimovirus
 		echo $RETRO
 		grep $RETRO LTR.out > $RETRO.out
 		awk '{print $5}' $RETRO.out | sort | uniq > $RETRO.lst
+		split $RETRO.lst $RETRO.lst.
+		echo -n > $RETRO.fas
+		for y in $RETRO.lst.*
+			do
+				samtools faidx ../contig/contig.fas $(cat $y) | sed s/:/./ >> $RETRO.fas	
+				rm $y
+		done	
 done
 
 cat Gypsy.lst Copia.lst Caulimovirus.lst > LTRassigned.lst
