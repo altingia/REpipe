@@ -1,11 +1,11 @@
 #!/usr/bin/Rscript
 
-##CLEANING AND JOINING REpipeline.sh RESULTS FROM MULTIPLE SPECIES (on JeanLuc)
+##CLEANING AND JOINING RESULTS FROM MULTIPLE SPECIES (on JeanLuc)
 
 #import species list
 species <- read.csv(list.files(path = ".", pattern = ".lst"), header=FALSE)
 
-#import all parsed REpipeline  files
+#import all parsed files
 filelist <- list.files(path=".", pattern=".table")
 for (i in 1:length(filelist)){
   assign(filelist[i], 
