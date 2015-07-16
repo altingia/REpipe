@@ -40,7 +40,7 @@ rm ambtemp.lst
 ## FIND ANNOTATED REPEAT CONTIGS
 echo "separate annotated and unannotated"
 grep -v -f ambiguous.lst nojunk.fas.out > annotate.fas.out
-tail  annotate.fas.out | awk '{print $5}' | sort | uniq > annotate.lst
+awk '{print $5}' annotate.fas.out | sort | uniq > annotate.lst
 	
 ## UNANNOTATED CONTIGS (INCLUDING JUNK)
 grep -v -f contigRE.lst nuc.lst > unannotated.lst
