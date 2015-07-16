@@ -4,7 +4,7 @@
 # usage: ./REpipeTable.sh TAXON TAXA.LST
 # dependency: joinTables.R 
 
-ANNOTATE=~/data/$1/annotate
+ANNOTATE=~/Copy/$1/annotate
 RESULTS=~/Copy/$1/results
 SCRIPTS=~/GitHub/REpipe
 
