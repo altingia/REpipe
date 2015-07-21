@@ -33,7 +33,7 @@ awk '{print $5}' nojunk.fas.out | sort | uniq > contigRE.lst
 echo "remove ambiguous"
 awk '{print $5,$11}' nojunk.fas.out | sort | uniq | awk '{print $1}' | uniq -d > ambtemp.lst
 awk '$11 ~ /Unknown/ {print $5}' nojunk.fas.out > unknown.lst
-echo "ambiguous" > ambiguous.lst
+echo -n > ambiguous.lst
 cat unknown.lst ambtemp.lst | sort | uniq >> ambiguous.lst
 rm ambtemp.lst
 		
