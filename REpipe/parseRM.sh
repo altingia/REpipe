@@ -27,11 +27,11 @@ done
 grep -v "RC" long.fas.out | grep -v "Low_complexity" | grep -v "Simple_repeat" | grep -v "Helitron" > nojunk.fas.out
 	
 ## TOTAL REPEAT READS MAPPED (AMBIGUOUS + ANNOTATED)
-tail -n+4  nojunk.fas.out | awk '{print $5}' | sort | uniq > contigRE.lst
+awk '{print $5}' nojunk.fas.out | sort | uniq > contigRE.lst
 		
 ## FIND CONTIGS WITH AMBIGUOUS ANNOTATIONS
 echo "remove ambiguous"
-tail -n+4  nojunk.fas.out | awk '{print $5,$11}' | sort | uniq | awk '{print $1}' | uniq -d > ambtemp.lst
+awk '{print $5,$11}' nojunk.fas.out | sort | uniq | awk '{print $1}' | uniq -d > ambtemp.lst
 awk '$11 ~ /Unknown/ {print $5}' nojunk.fas.out > unknown.lst
 echo "ambiguous" > ambiguous.lst
 cat unknown.lst ambtemp.lst | sort | uniq >> ambiguous.lst
